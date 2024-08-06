@@ -1,44 +1,28 @@
-import React, { useCallback } from 'react';
-import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-} from '@xyflow/react';
- 
-import '@xyflow/react/dist/style.css';
- 
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Graph1 from './Graph/Graph1';
+import Graph2 from './Graph/Graph2/Graph2';
+import Graph3 from './Graph/Graph3/Graph3';
+import Dagre1 from './Graph/Dagre1/Dagre1';
  
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
- 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges],
-  );
+  const router = createBrowserRouter([{
+    path: "/",
+    element: <Graph1 />,
+  },
+  {
+    path: "1",
+    element: <Graph2 />,
+  },
+  {
+    path: "2",
+    element: <Graph3 />,
+  },
+  {
+    path: "3",
+    element: <Dagre1 />,
+  }])
  
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Controls />
-        <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
-      </ReactFlow>
-    </div>
+    <RouterProvider router={router}></RouterProvider>
   );
 }
